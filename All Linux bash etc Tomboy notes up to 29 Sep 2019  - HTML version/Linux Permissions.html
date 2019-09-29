@@ -1,0 +1,496 @@
+<html xmlns:tomboy="http://beatniksoftware.com/tomboy" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns:link="http://beatniksoftware.com/tomboy/link"><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Linux Permissions</title><style type="text/css">
+	body {  }
+	h1 { font-size: xx-large;
+     	     font-weight: bold;
+     	     border-bottom: 1px solid black; }
+	div.note {
+		   position: relative;
+		   display: block;
+		   padding: 5pt;
+		   margin: 5pt; 
+		   white-space: -moz-pre-wrap; /* Mozilla */
+ 	      	   white-space: -pre-wrap;     /* Opera 4 - 6 */
+ 	      	   white-space: -o-pre-wrap;   /* Opera 7 */
+ 	      	   white-space: pre-wrap;      /* CSS3 */
+ 	      	   word-wrap: break-word;      /* IE 5.5+ */ }
+	</style></head><body><div class="note" id="Linux Permissions"><a name="linux permissions"></a><h1>Linux Permissions</h1>
+<a style="color:#3465A4" href="https://www.ibm.com/developerworks/library/l-lpic1-104-5/index.html">https://www.ibm.com/developerworks/library/l-lpic1-104-5/index.html</a>
+
+<a style="color:#3465A4" href="https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/4/html/Step_by_Step_Guide/s1-navigating-ownership.html">https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/4/html/Step_by_Step_Guide/s1-navigating-ownership.html</a>
+
+<a style="color:#3465A4" href="https://www.linux.com/learn/understanding-linux-file-permissions">https://www.linux.com/learn/understanding-linux-file-permissions</a>
+
+<a style="color:#3465A4" href="http://fideloper.com/user-group-permissions-chmod-apache">http://fideloper.com/user-group-permissions-chmod-apache</a>
+<span style="font-size:large">
+<b>USERS</b></span><span style="font-size:large">
+2 types of users; <b>System</b></span><span style="font-size:large"> users and <b>Regular</b></span><span style="font-size:large"> users
+The <a style="color:#3465A4" href="/etc/passwd">/etc/passwd</a></span><span style="font-size:large"> file contains all users on a system
+
+
+<b>SUPERUSER</b></span><span style="font-size:large">
+This is also called the 'root' user - has 'god' rights
+To assume 'superuser rights' we have 'superuser do' or 'sudo'
+Normaly don't go login as 'root' but use 'sudo'
+
+
+<b>GROUPS</b></span><span style="font-size:large">
+collection of 0 or more users
+Users belong to a default and other groups
+
+The <a style="color:#3465A4" href="/etc/group">/etc/group</a></span><span style="font-size:large"> file shows all groups and members
+
+
+<b>OWNERSHIP &amp; PERMISSION</b></span><span style="font-size:large">S
+Each file:
+access permissions + owned by a single user and group
+
+Example
+
+tomdom@tomdom-iMac:~$ ls -l /etc
+drwxr-xr-x  	3 	root			root   		4096 		Jan  	5	21:09 	acpi
+MODE			OWNER		GROUP		FILE SIZE		LAST MODIFIED	FILENAME
+
+
+admin@tomdom-iMac:~/wp-content/plugins$ ls -l
+drwxrwxr-x	4 	www-data	www-data 	4096 		Jun 26 	11:37 	akismet
+MODE			OWNER		GROUP		FILE SIZE		LAST MODIFIED	FILENAME
+
+drwxrwsr-x	5 	admin 		www-data 	4096 		Jun 29 	18:01 	block-2
+MODE			OWNER		GROUP		FILE SIZE		LAST MODIFIED	FILENAME
+
+tomdom@tomdom-iMac:~$ ls -l
+drwxr-xr-x  	2 	tomdom 		tomdom    	4096 		Mar 13 10:03 		Desktop
+MODE			OWNER		GROUP		FILE SIZE		LAST MODIFIED	FILENAME
+
+
+    			<b>MODE</b></span><span style="font-size:large">
+
+    		 		User 	Group	Other
+Examples
+File type--&gt;	d	rwx		rwx		rwx			<b>r</b></span><span style="font-size:large">ead <b>w</b></span><span style="font-size:large">rite e<b>x</b></span><span style="font-size:large">ecute
+			-	rw-		rw-		r--
+			l	rwx		rwx		rwx
+			d	rwx		---		---
+			d	rwx		rws		r-x
+
+<b>File type</b></span><span style="font-size:large">
+'Normal' (-) or 'Special' (eg d)
+
+-	data file, a simple file
+------------------------------------------
+d	Directory
+l	Symbolic link
+c	Character special device
+b	Block special device
+p	FIFO
+s	Socket
+
+
+
+<b>Permission classes</b></span><span style="font-size:large">
+<b>U</b></span><span style="font-size:large">ser - owner of file in this class
+<b>G</b></span><span style="font-size:large">roup - members of the group in this class
+<b>O</b></span><span style="font-size:large">ther -  anyone else in this class
+
+r--  means Read Only
+rw- means read, write only
+rwx Read, write and execute
+
+rws 
+
+
+<b>Owner Permissions</b></span><span style="font-size:large">: for a multi-user OS
+Config services to operate as a distinct user; hence via permissions, can control the service's access
+We can setup programs/services via a username and perform all operations via that user
+
+<b>Group Permissions</b></span><span style="font-size:large">
+Setup 'Group owner'
+
+To see what groups a user belongs too 
+$ groups
+
+To see all group  (not group not group'S')
+$ cat <a style="color:#3465A4" href="/etc/group">/etc/group</a></span><span style="font-size:large">
+
+
+tomdom@tomdom-iMac:~$ <b>groups</b></span><span style="font-size:large">
+tomdom adm cdrom sudo dip plugdev lpadmin sambashare <a style="color:#204A87" href="DOCKER.html">docker</a></span><span style="font-size:large">
+
+
+admin@tomdom-iMac:~/wp-content/plugins$ <b>groups</b></span><span style="font-size:large">
+admin www-data
+
+
+Octal notation
+4 = Read
+2 = Write
+1 = eXecute
+
+
+<b>Chmod - CHange files MOde permissions</b></span><span style="font-size:large">
+
+eg
+$ chmod 660 filename
+or
+$ chmod +r filename
+or
+$ chmod +rwx filename
+
+$ chmod -R filename    <b>R</b></span><span style="font-size:large">ecursively go through the directory and change all file permissions
+
+
+Often need to be MORE SELECTIVE
+To selectively set the mode:  u for users permissions, g for groups, o for others eg.
+$ chmod ug+xw filename
+
+and to remove permissions; example
+$ chmod o-xrw filename
+
+Can set different expressions by commas
+eg. ug=rwx,o=rx— 
+
+or octal numerical permissions
+
+
+To identify user 
+$ whoami
+
+To change users
+$ su tomdom
+
+To see what groups a user belongs too 
+$ groups
+
+To see what groups a different user (eg 'sarah') belongs too 
+$ groups sarah
+
+examples
+----------------------------------------------------------
+tomdom@tomdom-iMac:~$ whoami
+tomdom
+tomdom@tomdom-iMac:~$ groups admin
+admin : admin www-data
+tomdom@tomdom-iMac:~$ 
+----------------------------------------------------------
+
+
+<b>Suid (Set user id) 
+</b></span><span style="font-size:large">If program has the suid access modes set, it will run as if  started by the file's owner
+Have as few suid programs as possible as poor use of suid is a security risk.
+<b>
+and Sgid (Set group id)</b></span><span style="font-size:large">
+The program will run as if the initiating user belonged to the file's group rather than to his own group.
+
+When a directory has the sgid mode enabled, any files or directories created in it will inherit the group ID of the directory. 
+Useful for a group of people working on the same project. 
+
+
+EXAMPLE  <a style="color:#3465A4" href="http://fideloper.com/user-group-permissions-chmod-apache">http://fideloper.com/user-group-permissions-chmod-apache</a></span><span style="font-size:large">
+Not necessarily correct
+-------------------------------------------------------------------------------------------------------------------------------
+
+Use this knowledge to setup Apache we want for Apache:
+user www-data
+group www-data
+Server web root is <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+
+To set the owner/group of the 'web root' (and any directories/files therein ie Recursively)
+
+$ sudo chown -R www-data:www-data <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+
+So no-one but the current user (www-data) can access the web-root content
+$ chmod go-rwx <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+
+allow users of the same group (and 'other') to enter the <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large"> directory
+$ chmod go+x <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+
+Make sure all directories and files in the 'web root' have the 'www-data' group
+$ chgrp -R www-data <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+
+Set it so only the user can access web content
+$ chmod -R go-rwx <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+
+Set it so anyone in the same group can ready/write and execute in the web root
+$ chmod -R g+rx <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+
+give group write permissions
+$ chmod -R g+rwx <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+
+
+--------------------
+
+set the setgid bit on each of the directories within the web document root <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+
+So all new files created within <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">  to be given the group of www-data which is the parents group
+
+Hence  the web server 'www-data' will still have group ownership
+
+$ </span>sudo find <a style="color:#3465A4" href="/var/www/html">/var/www/html</a> -type d -exec<span style="font-size:large"> <b>chmod g+s</b></span><span style="font-size:large"> {}</span> \;<span style="font-size:large">
+
+give group write access to the wp-content directory so that the web interface can make theme and plugin changes:
+
+$ sudo chmod g+w <a style="color:#3465A4" href="/var/www/html/wp-content">/var/www/html/wp-content</a></span><span style="font-size:large">
+
+give the web server write access to all of the content in these two directories:
+
+$ sudo chmod -R g+w <a style="color:#3465A4" href="/var/www/html/wp-content/themes">/var/www/html/wp-content/themes</a></span><span style="font-size:large">
+
+$ sudo chmod -R g+w <a style="color:#3465A4" href="/var/www/html/wp-content/plugins">/var/www/html/wp-content/plugins</a></span><span style="font-size:large">
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+<b>The sticky bit (t)</b></span><span style="font-size:large">
+Only allows the owning user or the superuser (root) to delete or unlink a file. 
+
+
+
+
+==========================================================
+
+
+</span><b><span style="font-size:xx-large">What is the www-data user?</span></b><span style="font-size:large">
+</span><a style="color:#3465A4" href="https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-uwsgi-and-nginx-on-ubuntu-16-04">https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-uwsgi-and-nginx-on-ubuntu-16-04</a><span style="font-size:large">
+
+Since Ubuntu 14.04 <a style="color:#3465A4" href="/var/www">/var/www</a></span><span style="font-size:large"> has changed to <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large"> 
+An Apache2 install typically creates www-data automatically
+
+Web servers often run as 
+User: 			www-data
+Group: 			www-data; typically no write permissions
+Owner of files is 	www-data
+
+For security, <b>web content</b></span><span style="font-size:large">, HTML, JS, etc should <b>not </b></span><span style="font-size:large">be <b>owned by www-data</b></span><span style="font-size:large">
+<b>Data</b></span><span style="font-size:large"> written out be server <b>owned by www-data</b></span><span style="font-size:large">
+<b>Web server </b></span><span style="font-size:large">run as<b> user 'www-data' </b></span><span style="font-size:large">so the entire server can't be compromised
+
+
+The web server has to be run under a specific user
+That user must exist
+
+
+
+</span><b><span style="font-size:xx-large">How to avoid using sudo when working in <a style="color:#3465A4" href="/var/www/html?">/var/www/html?</a></span></b><span style="font-size:large">
+</span><a style="color:#3465A4" href="https://askubuntu.com/questions/46331/how-to-avoid-using-sudo-when-working-in-var-www">https://askubuntu.com/questions/46331/how-to-avoid-using-sudo-when-working-in-var-www</a><span style="font-size:large">
+
+<b>Method 1</b></span><span style="font-size:large">
+Add your username to the www-data group
+Set the setgid bit on <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large"> directory so that all newly created files inherit this group as well
+
+$ sudo gpasswd -a "$USER" www-data
+
+Correct previously created files (assuming you to be the only user of <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large"> )
+
+$ sudo chown -R "$USER":www-data <a style="color:#3465A4" href="/var/www">/var/www</a></span><span style="font-size:large">
+$ find <a style="color:#3465A4" href="/var/www">/var/www</a></span><span style="font-size:large"> -type f -exec chmod 0660 {} \;
+$ sudo find <a style="color:#3465A4" href="/var/www">/var/www</a></span><span style="font-size:large"> -type d -exec chmod 2770 {} \;
+
+chmod 0660    =   -rw-rw----
+
+chmod 2770    =  drwxrws---
+
+</span><a style="color:#3465A4" href="https://chmodcommand.com/chmod-2770/">https://chmodcommand.com/chmod-2770/</a><span style="font-size:large">
+
+
+<b>Method 2</b></span><span style="font-size:large">
+
+Create a symlink for each project to your home directory
+If project is at <a style="color:#3465A4" href="~/projects/foo">~/projects/foo</a></span><span style="font-size:large"> to located it at <a style="color:#3465A4" href="/var/www/html/foo">/var/www/html/foo</a></span><span style="font-size:large"> 
+
+$ sudo ln -sT <a style="color:#3465A4" href="~/projects/foo">~/projects/foo</a></span><span style="font-size:large"> <a style="color:#3465A4" href="/var/www/html/foo">/var/www/html/foo</a></span><span style="font-size:large">      [ s softlink   T  no target; treat 'foo' as a normal file]
+
+
+Change the <b>group of 'projects' to 'www-data'</b></span><span style="font-size:large"> setting e<b>x</b></span><span style="font-size:large">ecute only
+Do the same for the <a style="color:#3465A4" href="~/projects">~/projects</a></span><span style="font-size:large"> folder as it may contain other projects than <a style="color:#3465A4" href="www.">www.</a></span><span style="font-size:large"> 
+(You don't need sudo if you have previously added your user to the www-data group.)
+
+$ sudo chgrp www-data ~ <a style="color:#3465A4" href="~/projects">~/projects</a></span><span style="font-size:large">
+$ chmod 710 ~ <a style="color:#3465A4" href="~/projects">~/projects</a></span><span style="font-size:large">
+
+Set the group to www-data on <a style="color:#3465A4" href="~/projects/foo">~/projects/foo</a></span><span style="font-size:large"> and allow the webserver to read and write to files and files+directories and descend into directories:
+
+$ sudo chgrp www-data <a style="color:#3465A4" href="~/projects/foo">~/projects/foo</a></span><span style="font-size:large">
+$ find <a style="color:#3465A4" href="~/projects/foo">~/projects/foo</a></span><span style="font-size:large"> -type f -exec chmod 660 {} \;
+$ find <a style="color:#3465A4" href="~/projects/foo">~/projects/foo</a></span><span style="font-size:large"> -type d -exec chmod 2770 {} \;
+
+
+You can now access your site at <a style="color:#3465A4" href="http://localhost/foo">http://localhost/foo</a></span><span style="font-size:large"> and edit your project files in <a style="color:#3465A4" href="~/projects/foo.">~/projects/foo.</a></span><span style="font-size:large">
+
+
+</span><b><span style="font-size:xx-large">Solving the web file permissions problem once and for all</span></b><span style="font-size:large">
+</span><a style="color:#3465A4" href="http://blog.netgusto.com/solving-web-file-permissions-problem-once-and-for-all/">http://blog.netgusto.com/solving-web-file-permissions-problem-once-and-for-all/</a><span style="font-size:large">
+
+Both the web server and the developpers require file permissions on the same files to operate properly, but they might need different permissions on the same files.
+
+With bindfs, developers access applications via dedicated filesystem mountpoints (placed in their home dir), acting as file-permission filters, presenting files like they're owned by themselves, whereas the files are really owned by the web server user (like www-data).
+
+
+
+
+<b><span style="font-size:xx-large">Create-guten-block and
+Fixing npm EACCES errors </span></b></span><span style="font-size:large"></span><span style="font-size:large">
+
+
+The problem I had with setting up the create-guten-block npm app is that it produced EACCES errors.
+
+The problem is that I had the web server in var/www/html but the user I had difficulties getting permissions correct.
+
+
+Tried the following; this looks unsafe and just didn't work
+
+$ sudo npx create-guten-block --unsafe-perm=true --allow-root myblock
+$ sudo npx create-guten-block myblock --unsafe-perm=true --allow-root
+
+
+We have two users 'tomdom' and 'www-data'
+
+switching to 'www-data' user
+$ sudo su www-data
+
+
+
+If we check the groups for www-data, tomdom and admin
+
+$ groups tomdom www-data
+tomdom : tomdom adm cdrom sudo dip plugdev lpadmin sambashare <a style="color:#204A87" href="DOCKER.html">docker</a></span><span style="font-size:large">
+www-data : www-data
+
+So tomdom is NOT a member of the www-data 'web root' group
+'www-data' user is a member of the 'www-data' group
+
+Checking the status of the passwords for these users
+$ sudo passwd --status tomdom
+tomdom P 03/07/2018 0 99999 7 -1
+
+$ sudo passwd --status www-data
+www-data L 01/05/2018 0 99999 7 -1
+
+Fields 1 to 7 mean:
+1) User's login name
+2) If user has a locked password (L), no password (NP), usable password (P)
+3 to 7) Date of the last password change, min age ,max age, warning period, inactivity period
+
+We see that the <b>www-data user</b></span><span style="font-size:large"> p<b>assword is locked down</b></span><span style="font-size:large"> for security reasons.
+
+
+We could unlock it OR create a new user that has a password enabled and is assigned permissions to the 'www-data' group
+
+Lets add/create a new user called 'admin' and assign it permissions to the 'www-data' web server group
+$ sudo useradd -d <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large"> -G www-data admin
+$ sudo passwd admin
+$ sudo usermod -d <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large"> admin
+
+Checking the status of the passwords for admin
+$ sudo passwd --status admin
+admin P 06/29/2018 0 99999 7 -1
+
+Now set permissions for all users recursively in the www-data group; so this will include 'admin'
+$ sudo chgrp -R www-data <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+
+$ sudo chmod -R g+w <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+$ sudo chmod g+s <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+
+Setgid bit is set so any files created in <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large"> will inherit 'www-data' group id
+OR could have done [safer]
+$ chmod -R 2775 <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+
+OR - which is the same as doing
+$ sudo chmod -R a+rwx,o-w,ug+s,+t,u-s,-t  <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+
+
+Checking  'admin' and 'www-data' users are members of the 'www-data' group
+$ groups admin www-data
+admin : admin www-data
+www-data : www-data
+
+[(d)   user   group   other]
+$ ls -al <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large">
+drwxrwsr-x  7   www-data    www-data    4096 Jun 29 17:36 html
+
+So 'html' web root project directory is 'user', and 'group' is www-data. 
+The 'www-data' group has read, write and execute permissions, 
+
+
+
+and the 'plugin' and 'gutenburg' directories have user and group permissions of 'www-data'
+$ ls -al <a style="color:#3465A4" href="/var/www/html/wp-content/plugins">/var/www/html/wp-content/plugins</a></span><span style="font-size:large">
+drwxrwsr-x 5    www-data    www-data  .
+drwxrwxr-x 7    www-data    www-data   gutenberg
+
+
+
+Lets create a symbolic soft link inside our 'wordpress' project folder that points to the 'web root' directory
+$ ln -s <a style="color:#3465A4" href="/var/www/html">/var/www/html</a></span><span style="font-size:large"> '/home/tomdom/Temp stuff/WP_Using hosts MySQL db/wp_test/wordpress'
+
+
+
+Check follow symbolic links in apache2 config
+-------------
+&lt;Directory <a style="color:#3465A4" href="/var/www/html/>">/var/www/html/&gt;</a></span><span style="font-size:large">
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+&lt;/Directory&gt;
+-------------
+$ cd <a style="color:#3465A4" href="/etc/apache2/">/etc/apache2/</a></span><span style="font-size:large">
+$ nano apache2.conf 
+
+
+Switch to the 'admin' user
+$ su admin
+
+now as 'admin' is a member of www-data group we can create a guten-block with npm
+
+$ sudo npx create-guten-block
+$ sudo npx create-guten-block testblock
+
+
+And if we check the newly created guten-block 'block-2' we see 
+its user and group permissions are 'admin' and 'ww-data' as required
+
+$ ls -al <a style="color:#3465A4" href="/var/www/html/wp-content/plugins">/var/www/html/wp-content/plugins</a></span><span style="font-size:large">
+drwxrwsr-x 5    admin       www-data    4096 Jun 29 18:01 block-2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</span></div></body></html>

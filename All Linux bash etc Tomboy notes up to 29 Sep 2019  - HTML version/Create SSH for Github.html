@@ -1,0 +1,66 @@
+<html xmlns:tomboy="http://beatniksoftware.com/tomboy" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns:link="http://beatniksoftware.com/tomboy/link"><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Create SSH for Github</title><style type="text/css">
+	body {  }
+	h1 { font-size: xx-large;
+     	     font-weight: bold;
+     	     border-bottom: 1px solid black; }
+	div.note {
+		   position: relative;
+		   display: block;
+		   padding: 5pt;
+		   margin: 5pt; 
+		   white-space: -moz-pre-wrap; /* Mozilla */
+ 	      	   white-space: -pre-wrap;     /* Opera 4 - 6 */
+ 	      	   white-space: -o-pre-wrap;   /* Opera 7 */
+ 	      	   white-space: pre-wrap;      /* CSS3 */
+ 	      	   word-wrap: break-word;      /* IE 5.5+ */ }
+	</style></head><body><div class="note" id="Create SSH for Github"><a name="create ssh for github"></a><h1>Create SSH   and SSHFS for Github</h1>
+<a style="color:#3465A4" href="https://linuxize.com/post/how-to-set-up-ssh-keys-on-ubuntu-1804/">https://linuxize.com/post/how-to-set-up-ssh-keys-on-ubuntu-1804/</a>
+<a style="color:#3465A4" href="https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-on-ubuntu-1804">https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-on-ubuntu-1804</a>
+
+<span style="font-size:large">To see if an <a style="color:#204A87" href="SSH   and SSHFS.html">SSH   and SSHFS</a></span><span style="font-size:large"> keys and directory have already been created
+
+$ ls -l <a style="color:#3465A4" href="~/.ssh/id_*.pub">~/.ssh/id_*.pub</a></span><span style="font-size:large">
+-rw-r--r-- 1 tomdom tomdom 743 Jun 13 11:56 <a style="color:#3465A4" href="/home/tomdom/.ssh/id_rsa.pub">/home/tomdom/.ssh/id_rsa.pub</a></span><span style="font-size:large">
+
+To create a new publiv and private key (longer 4096 version)
+$ <a style="color:#204A87" href="SSH   and SSHFS.html">SSH   and SSHFS</a></span><span style="font-size:large">-keygen -t rsa -b 4096 -C "<a style="color:#3465A4" href="tom@appijumbo.com&quot;">tom@appijumbo.com"</a></span><span style="font-size:large">
+	Generating public/private rsa key pair.
+	Enter file in which to save the key (<a style="color:#3465A4" href="/home/tomdom/.ssh/id_rsa">/home/tomdom/.ssh/id_rsa</a></span><span style="font-size:large">)
+	<a style="color:#3465A4" href="/home/tomdom/.ssh/id_rsa">/home/tomdom/.ssh/id_rsa</a></span><span style="font-size:large"> already exists.
+	Overwrite (y/n)? y
+	Enter passphrase (empty for no passphrase): 
+	Enter same passphrase again: 
+	Your identification has been saved in <a style="color:#3465A4" href="/home/tomdom/.ssh/id_rsa.">/home/tomdom/.ssh/id_rsa.</a></span><span style="font-size:large">
+	Your public key has been saved in <a style="color:#3465A4" href="/home/tomdom/.ssh/id_rsa.pub.">/home/tomdom/.ssh/id_rsa.pub.</a></span><span style="font-size:large">
+	The key fingerprint is:
+	SHA256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx <a style="color:#3465A4" href="tom@appijumbo.com">tom@appijumbo.com</a></span><span style="font-size:large">
+	The key's randomart image is:
+	+---[RSA 4096]----+
+	|       11  .=o   		|
+	|       .o .o...  		|
+	|      .. .. o... 		|
+	|     . o D o == .	|
+	|      = X   O-.+.	|
+	|     . o . +.=*oo	|
+	|    .  iii. ++.= 	|
+	|     .  *o+...o  		|
+	|      .. +..     		|
+	+----[SHA256]-----+
+
+
+For a rough check to see if keys exist
+$ ls <a style="color:#3465A4" href="~/.ssh/id_*">~/.ssh/id_*</a></span><span style="font-size:large">
+<a style="color:#3465A4" href="/home/tomdom/.ssh/id_rsa">/home/tomdom/.ssh/id_rsa</a></span><span style="font-size:large">  <a style="color:#3465A4" href="/home/tomdom/.ssh/id_rsa.pub">/home/tomdom/.ssh/id_rsa.pub</a></span><span style="font-size:large">
+
+
+Private and public keys have been created. 
+To see the public key 'cat' it out ie
+
+$ cat <a style="color:#3465A4" href="~/.ssh/id_rsa.pub">~/.ssh/id_rsa.pub</a></span><span style="font-size:large">
+<a style="color:#204A87" href="SSH   and SSHFS.html">SSH   and SSHFS</a></span><span style="font-size:large">-rsa ABCDxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx== <a style="color:#3465A4" href="tom@appijumbo.com">tom@appijumbo.com</a></span><span style="font-size:large">
+
+copy this key and paste into the Github <a style="color:#204A87" href="SSH   and SSHFS.html">SSH   and SSHFS</a></span><span style="font-size:large"> textarea , where it asks for the key</span>
+
+an</div></body></html>

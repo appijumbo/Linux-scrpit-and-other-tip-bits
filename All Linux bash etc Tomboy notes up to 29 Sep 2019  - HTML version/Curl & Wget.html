@@ -1,0 +1,365 @@
+<html xmlns:tomboy="http://beatniksoftware.com/tomboy" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns:link="http://beatniksoftware.com/tomboy/link"><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Curl &amp; Wget</title><style type="text/css">
+	body {  }
+	h1 { font-size: xx-large;
+     	     font-weight: bold;
+     	     border-bottom: 1px solid black; }
+	div.note {
+		   position: relative;
+		   display: block;
+		   padding: 5pt;
+		   margin: 5pt; 
+		   white-space: -moz-pre-wrap; /* Mozilla */
+ 	      	   white-space: -pre-wrap;     /* Opera 4 - 6 */
+ 	      	   white-space: -o-pre-wrap;   /* Opera 7 */
+ 	      	   white-space: pre-wrap;      /* CSS3 */
+ 	      	   word-wrap: break-word;      /* IE 5.5+ */ }
+	</style></head><body><div class="note" id="Curl &amp; Wget"><a name="curl &amp; wget"></a><h1>Curl &amp; Wget</h1>
+<b><span style="font-size:xx-large">
+
+WGET
+</span></b><span style="font-size:large">
+$ wget <a style="color:#3465A4" href="http://fooBar.com">http://fooBar.com</a></span><span style="font-size:large">
+ 
+<b>Downloads the index.html page</b></span><span style="font-size:large"> of fooBar.com into the current working directory
+
+
+	and if we do
+
+	$ ls 
+
+	we should see 
+
+	index.html
+
+	we can see the file size from
+
+	$ du index.html
+	76K   index.html
+
+	or 
+
+	$ ls -l index.html
+
+
+Without options, <b>Wget is different from Curl</b></span><span style="font-size:large"> whose standard out is to the <b>command line not to a file.</b></span><span style="font-size:large">
+
+Suppose an ASCII text file called fooText is at <a style="color:#3465A4" href="http://fooBar">http://fooBar</a></span><span style="font-size:large">
+
+Hence   	$ wget fooBar === $ curl -s fooBar &gt;&gt; fooText
+
+		and to check if it's ASCII  
+		$ file fooText 		
+		
+Likewise 	$ curl <a style="color:#3465A4" href="http://fooBar">http://fooBar</a></span><span style="font-size:large"> === $ wget  ??? (not sure !)
+
+
+
+<b>Download site</b></span><span style="font-size:large">
+
+We need to do it '<b>recursively'</b></span><span style="font-size:large"> to not just download the index.html but all the files connected to it
+
+Note: this downloads the pages recursively up to a maximum of 5 levels deep.
+
+$ wget <a style="color:#3465A4" href="http://fooBar.com">http://fooBar.com</a></span><span style="font-size:large"> <b>-r</b></span><span style="font-size:large">
+
+We should now have the structure of the site, directories and files
+
+	We can see this structure with
+
+	$ tree
+
+<i>Deeper ?</i></span><span style="font-size:large">
+5 levels deep might not be enough to get everything from the site. You can use the -l switch to set the number of levels you wish to go to as follows:
+
+$ wget -r -l10 <a style="color:#3465A4" href="http://fooBar.com">http://fooBar.com</a></span><span style="font-size:large">
+
+
+For ALL levels ie. INFinite recursion you can use the following:
+
+$ wget -r -l inf <a style="color:#3465A4" href="http://fooBar.com">http://fooBar.com</a></span><span style="font-size:large">
+
+OR
+
+$ wget -r -l 0 <a style="color:#3465A4" href="http://fooBar.com">http://fooBar.com</a></span><span style="font-size:large">
+
+note that 'inf' === '0' [zero] 
+
+There is still one more problem. You might get all the pages locally but all the links in the pages still point to their original place. It is therefore not possible to click locally between the links on the pages.
+
+You can get around this problem by using the -k or --convert-links option which converts all the links on the pages to point to their locally downloaded equivalent
+
+--convert-links: After the download is complete, convert the links in the document to make them suitable for local viewing.  This affects not only the visible hyperlinks, but any part of the document that links to external content, such as embedded images, links to style sheets, hyperlinks to non-HTML content, etc.
+
+$ wget <b>-r -k</b></span><span style="font-size:large"> <a style="color:#3465A4" href="http://fooBar.com">http://fooBar.com</a></span><span style="font-size:large">
+
+
+<b>Mirroring a complete site</b></span><span style="font-size:large">
+If you want to get a complete mirror of a website you can simply use the following switch which takes away the necessity for using the -r -k and -l switches.
+
+$ wget <b>-m</b></span><span style="font-size:large"> <a style="color:#3465A4" href="http://fooBar.com">http://fooBar.com</a></span><span style="font-size:large">
+
+Therefore if you have your own website you can make a complete backup using this one simple command.
+
+Example
+
+$ wget <b>-r -k -l5</b></span><span style="font-size:large"> <a style="color:#3465A4" href="http://fooBar.com">http://fooBar.com</a></span><span style="font-size:large">
+
+
+
+<b><span style="background:yellow">Spidering (basic) a site to discover broken links (404's)</span></b></span><span style="font-size:large"></span><span style="font-size:large">
+needs options like
+
+<b><span style="background:yellow">--spider</span></b></span><span style="font-size:large"></span><span style="font-size:large">
+Don't download the pages, just check that they exist
+
+<b>--no-directories</b></span><span style="font-size:large"> or<span style="background:yellow"> <b>-nd</b></span></span><span style="font-size:large"></span><span style="font-size:large">    don't create directories
+
+<b>--wait</b></span><span style="font-size:large">=SECONDS or <b><span style="background:yellow">-w</span></b></span><span style="font-size:large"></span><span style="font-size:large">    wait between retrievals in seconds
+
+<b>--output-file</b></span><span style="font-size:large">=FILE or<span style="background:yellow"> <b>-o</b></span></span><span style="font-size:large"></span><span style="font-size:large">   <b>log messages</b></span><span style="font-size:large"> to FILE (so can see what is broken)
+
+<b>--no-verbose</b></span><span style="font-size:large"> or <b><span style="background:yellow">-nv</span></b></span><span style="font-size:large"></span><span style="font-size:large">  to turn off verboseness
+
+
+(plus we want it to be recursive for 'all' levels too ie. -r -l inf )
+
+Hence a basic 'spider' to find 404's is
+
+$ wget -r --spider -nd -nv -l 1 -w 1 -o testLogFooBar <a style="color:#3465A4" href="http://fooBar">http://fooBar</a></span><span style="font-size:large"> 
+
+<b><span style="background:yellow">TIP 1: tail -f</span></b></span><span style="font-size:large"></span><span style="font-size:large">
+: To see the output as it crawls the web page, open up another terminal, or split it eg ' CTRL+SHIFT+)' then 
+
+Use <b>tail</b></span><span style="font-size:large"> with <b>-f follow</b></span><span style="font-size:large"> option, so can see it working !
+
+	$ tail -f testLogFooBar
+
+
+<b>Tested on my own site appijumbo.com</b></span><span style="font-size:large">
+
+$ wget -r --spider -nd -nv -l inf -w 2 -o appiLog <a style="color:#3465A4" href="http://appijumbo.com">http://appijumbo.com</a></span><span style="font-size:large">
+
+split then
+
+$ tail -f appiLog
+---&gt;
+2018-04-13 14:05:08 URL:<a style="color:#3465A4" href="http://www.appijumbo.com/">http://www.appijumbo.com/</a></span><span style="font-size:large"> [21958/21958] -&gt; "index.html.tmp.tmp" [1]
+Found no broken links.
+
+FINISHED --2018-04-13 14:05:08--
+Total wall clock time: 4.6s
+Downloaded: 1 files, 21K in 0.03s (728 KB/s)
+
+SUCCESS !!
+
+<b><span style="background:yellow">TIP2: Chron job to keep checking site after launch</span></b></span><span style="font-size:large"></span><span style="font-size:large">
+Put this on a Chron job and set an alert to tell you if you get 404 errors or similar!!
+
+Use 'notify-send'  (sudo apt install libnotify-bin) to create pop up alert messages 
+
+	$ notify-send -i face-wink "Hello World!"
+
+or send an email ( <a style="color:#3465A4" href="https://bit.ly/2ISD80p">https://bit.ly/2ISD80p</a></span><span style="font-size:large"> ) with sendmail, mail, mutt, ssmtp or telnet
+
+
+
+
+
+-------------
+
+
+To download an entire Web site, perhaps for off-line viewing, wget can do the
+job—for example:
+
+$ wget \
+     --recursive \
+     --no-clobber \
+     --page-requisites \
+     --html-extension \
+     --convert-links \
+     --restrict-file-names=windows \
+     --domains website.org \
+     --no-parent \
+         <a style="color:#3465A4" href="www.website.org/tutorials/html/">www.website.org/tutorials/html/</a></span><span style="font-size:large">
+
+This command downloads the Web site <a style="color:#3465A4" href="www.website.org/tutorials/html/.">www.website.org/tutorials/html/.</a></span><span style="font-size:large">
+
+The options are:
+
+    --recursive: download the entire Web site.
+
+    --domains website.org: don't follow links outside website.org.
+
+    --no-parent: don't follow links outside the directory tutorials/html/.
+
+    --page-requisites: get all the elements that compose the page (images, CSS and so on).
+
+    --html-extension: save files with the .html extension.
+
+    --convert-links: convert links so that they work locally, off-line.
+
+    --restrict-file-names=windows: modify filenames so that they will work in Windows as well.
+
+    --no-clobber: don't overwrite any existing files (used in case the download is interrupted and
+    resumed).
+
+
+--------
+wget 'url' just created a new file itself 
+To force wget to send output to desired file by telling wget to output its payload to stdout (with flag -O-) and suppress its own output (with flag -q):
+
+wget -qO- '<a style="color:#3465A4" href="http://api.openweathermap.org/data/2.5/weather?q=Ellesmere">http://api.openweathermap.org/data/2.5/weather?q=Ellesmere</a></span><span style="font-size:large"> Port,uk&amp;appid=4595334ecc0bf10a9aa1461cc222ef14' &gt;&gt; wgettest-qO-.json 
+
+
+--------
+
+try
+wget -qO- '<a style="color:#3465A4" href="http://api.openweathermap.org/data/2.5/weather?q=Ellesmere">http://api.openweathermap.org/data/2.5/weather?q=Ellesmere</a></span><span style="font-size:large"> Port,uk&amp;appid=4595334ecc0bf10a9aa1461cc222ef14' &gt;&gt; wgettest2-qO-.json | python -m json.tool &gt;&gt; wgettest2-qO-Prettyjson.json
+
+
+
+
+================================================================
+================================================================
+
+
+
+------
+
+oh-my-zsh has a pp json toll plug-in
+
+------
+
+A fake ReST api JSON test site :
+<a style="color:#3465A4" href="https://jsonplaceholder.typicode.com">https://jsonplaceholder.typicode.com</a></span><span style="font-size:large">
+
+-------
+<a style="color:#3465A4" href="http://api.openweathermap.org/data/2.5/weather?q=Ellesmere%20Port,uk&amp;appid=4595334ecc0bf10a9aa1461cc222ef14">http://api.openweathermap.org/data/2.5/weather?q=Ellesmere%20Port,uk&amp;appid=4595334ecc0bf10a9aa1461cc222ef14</a></span><span style="font-size:large">
+
+-----
+
+
+
+================================================================
+================================================================
+
+
+
+</span><b><span style="font-size:xx-large">CURL
+</span></b><span style="font-size:large">
+-----
+Curl and libcurl - (installed by default in Linux)
+query url, 
+GET POSt PUT DELETE
+auth users , 
+save responces to file.
+Transfer cookies, test speeds etc
+Good for testing ReST api's
+$ curl <a style="color:#3465A4" href="http://">http://</a></span><span style="font-size:large"> xxx    or say  $ curl <a style="color:#3465A4" href="http://localhost:3000">http://localhost:3000</a></span><span style="font-size:large">
+-&gt; gives script from browser
+Testing JSON responce
+$ curl <a style="color:#3465A4" href="http://xxxx">http://xxxx</a></span><span style="font-size:large">   will give json pacge back -&gt; BUT !
+
+
+
+----
+
+cURL info  <a style="color:#3465A4" href="https://curl.haxx.se/docs/httpscripting.html">https://curl.haxx.se/docs/httpscripting.html</a></span><span style="font-size:large">
+
+---------
+
+curl '<a style="color:#3465A4" href="http://api.openweathermap.org/data/2.5/weather?q=Ellesmere">http://api.openweathermap.org/data/2.5/weather?q=Ellesmere</a></span><span style="font-size:large"> Port,uk&amp;appid=4595334ecc0bf10a9aa1461cc222ef14' | python -m json.tool &gt;&gt; test1
+
+------
+curl -o test2.json '<a style="color:#3465A4" href="http://api.openweathermap.org/data/2.5/weather?q=Ellesmere">http://api.openweathermap.org/data/2.5/weather?q=Ellesmere</a></span><span style="font-size:large"> Port,uk&amp;appid=4595334ecc0bf10a9aa1461cc222ef14'
+
+
+
+To get responce header 'i'nformation with the JSON package use:
+$  curl -i <a style="color:#3465A4" href="http://xxxx">http://xxxx</a></span><span style="font-size:large">
+and for just the 'head'er 'I'nformation, ie on its own
+$ curl -I <a style="color:#3465A4" href="http://xxxxx">http://xxxxx</a></span><span style="font-size:large">      or    $ curl --head <a style="color:#3465A4" href="http://xxxxx">http://xxxxx</a></span><span style="font-size:large"> 
+
+To GET , POST, PUT (update), DELETE  ie http methods
+
+GET
+$ curl <a style="color:#3465A4" href="http://">http://</a></span><span style="font-size:large">    is itself a GET
+
+POST sending 'd'ata (e.g. a first and last name to an api called xxxxx)
+$ curl -d "first=Tom&amp;last=Ormiston" <a style="color:#3465A4" href="http://">http://</a></span><span style="font-size:large"> xxxxx
+example 2
+$ curl -d "title=myHello&amp;body=hello world" <a style="color:#3465A4" href="https://jsonplaceholder.typicode.com/posts">https://jsonplaceholder.typicode.com/posts</a></span><span style="font-size:large">   
+
+PUT (update)
+we 'request a command ' (-X) to PUT 'd'ata (PUT -d)
+$ curl -X PUT -d "first=Thomas&amp;last=Ormiston" <a style="color:#3465A4" href="http://">http://</a></span><span style="font-size:large"> xxxxx
+example 2
+curl -X PUT -d "title=myHello&amp;body=hello world" <a style="color:#3465A4" href="https://jsonplaceholder.typicode.com/posts/99">https://jsonplaceholder.typicode.com/posts/99</a></span><span style="font-size:large">
+
+DELETE
+we 'request a command ' (-X) to DELETE 
+$ curl -X DELETE <a style="color:#3465A4" href="http://xxxxxx">http://xxxxxx</a></span><span style="font-size:large">
+example 2
+ curl -X DELETE <a style="color:#3465A4" href="https://jsonplaceholder.typicode.com/posts/99">https://jsonplaceholder.typicode.com/posts/99</a></span><span style="font-size:large">  
+
+For a'u'thentication  -&gt; use 'u'
+for   username: bob      password:123
+$ curl -u bob:123  <a style="color:#3465A4" href="http://xxxxx">http://xxxxx</a></span><span style="font-size:large">
+
+D'o'wnload a file/page - the 'o'utput (also format is prettyfied json)
+$ curl -o pic1.jpg <a style="color:#3465A4" href="http://xxxxx">http://xxxxx</a></span><span style="font-size:large">
+this image data is downloaded and the output saved in a file automaticly created called pic1.jpg
+Can also save the output of a JSON packge to a file
+$ curl -o jsfile.json <a style="color:#3465A4" href="http://xxxxx">http://xxxxx</a></span><span style="font-size:large">
+
+or example 2 using the fake json rest api tester site:
+$ curl -o dowloadJson.json <a style="color:#3465A4" href="https://jsonplaceholder.typicode.com/posts/6">https://jsonplaceholder.typicode.com/posts/6</a></span><span style="font-size:large">
+
+To save a file, not a GET request as such use capital 'O' ie -O, 
+this doesn't need a filename as it come from the remote url
+
+$ curl -O <a style="color:#3465A4" href="http://xxxx">http://xxxx</a></span><span style="font-size:large">    
+
+eg, this just downloads a file called 'posts'
+$ curl -O <a style="color:#3465A4" href="https://jsonplaceholder.typicode.com/posts">https://jsonplaceholder.typicode.com/posts</a></span><span style="font-size:large">
+
+This is good for downloading images too
+$ curl -O <a style="color:#3465A4" href="http://bit.ly/2v4Dx8t">http://bit.ly/2v4Dx8t</a></span><span style="font-size:large">
+
+Dowloading 
+'  -O  ' remote name  ---&gt; Write output to a file named as the remote file
+'  -o  '  output FILE  ---&gt; Write to FILE instead of stdout
+
+RE-DIREDTION   --&gt;   'L'
+if we do
+$ curl <a style="color:#3465A4" href="http://google.com">http://google.com</a></span><span style="font-size:large">   
+---&gt;
+&lt;TITLE&gt;302 Moved&lt;/TITLE&gt;&lt;/HEAD&gt;&lt;BODY&gt; 
+&lt;H1&gt;302 Moved&lt;/H1&gt; 
+The document has moved 
+&lt;A HREF="<a style="color:#3465A4" href="http://www.google.co.uk/?gfe_rd=cr&amp;ei=YYSVWbqSFa338Aew3Z_oBw&quot;>here</A>.">http://www.google.co.uk/?gfe_rd=cr&amp;ei=YYSVWbqSFa338Aew3Z_oBw"&gt;here&lt;/A&gt;.</a></span><span style="font-size:large"> 
+&lt;/BODY&gt;&lt;/HTML&gt;
+The reason is that the site has moved to <a style="color:#3465A4" href="www.google.com">www.google.com</a></span><span style="font-size:large">
+Hence we use a re-direct option  ' -L '
+$ curl -L <a style="color:#3465A4" href="http://google.com">http://google.com</a></span><span style="font-size:large">   
+now works ok because to redirects to <a style="color:#3465A4" href="www.google.com">www.google.com</a></span><span style="font-size:large"> automaticly
+
+----------
+File '  T 'ransfersing using  <a style="color:#204A87" href="FTP.html">FTP</a></span><span style="font-size:large">   ---&gt; ' T '  flag
+
+This needs authentication so use the -u
+so for this example 
+username: <a style="color:#3465A4" href="tom@appijumbo.com">tom@appijumbo.com</a></span><span style="font-size:large">   password:1234  file is 'myfile.txt'
+
+To upload myfile.txt
+$ curl -u <a style="color:#3465A4" href="tom@appijumbo.com:1234">tom@appijumbo.com:1234</a></span><span style="font-size:large">  -T myfile.txt <a style="color:#3465A4" href="ftp://ftp.appijumbo.com">ftp://ftp.appijumbo.com</a></span><span style="font-size:large">
+
+To download myfile.txt
+$ curl -u <a style="color:#3465A4" href="tom@appijumbo.com:1234">tom@appijumbo.com:1234</a></span><span style="font-size:large">  -O <a style="color:#3465A4" href="ftp://ftp.appijumbo.com/myfile.txt">ftp://ftp.appijumbo.com/myfile.txt</a></span><span style="font-size:large">
+
+------
+To install Yarn
+
+curl -sS <a style="color:#3465A4" href="https://dl.yarnpkg.com/debian/pubkey.gpg">https://dl.yarnpkg.com/debian/pubkey.gpg</a></span><span style="font-size:large"> | sudo apt-key add -
+echo "deb <a style="color:#3465A4" href="https://dl.yarnpkg.com/debian/">https://dl.yarnpkg.com/debian/</a></span><span style="font-size:large"> stable main" | sudo tee <a style="color:#3465A4" href="/etc/apt/sources.list.d/yarn.list">/etc/apt/sources.list.d/yarn.list</a></span><span style="font-size:large">
+</span></div></body></html>

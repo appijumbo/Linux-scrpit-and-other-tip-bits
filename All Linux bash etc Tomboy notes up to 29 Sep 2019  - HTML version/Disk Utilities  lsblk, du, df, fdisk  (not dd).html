@@ -1,0 +1,76 @@
+<html xmlns:tomboy="http://beatniksoftware.com/tomboy" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns:link="http://beatniksoftware.com/tomboy/link"><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Disk Utilities  lsblk, du, df, fdisk  (not dd)</title><style type="text/css">
+	body {  }
+	h1 { font-size: xx-large;
+     	     font-weight: bold;
+     	     border-bottom: 1px solid black; }
+	div.note {
+		   position: relative;
+		   display: block;
+		   padding: 5pt;
+		   margin: 5pt; 
+		   white-space: -moz-pre-wrap; /* Mozilla */
+ 	      	   white-space: -pre-wrap;     /* Opera 4 - 6 */
+ 	      	   white-space: -o-pre-wrap;   /* Opera 7 */
+ 	      	   white-space: pre-wrap;      /* CSS3 */
+ 	      	   word-wrap: break-word;      /* IE 5.5+ */ }
+	</style></head><body><div class="note" id="Disk Utilities  lsblk, du, df, fdisk  (not dd)"><a name="disk utilities  lsblk, du, df, fdisk  (not dd)"></a><h1>Disk Utilities  lsblk, du, df, fdisk  (not dd)</h1>
+<a style="color:#3465A4" href="https://youtu.be/tMVj22EWg6A">https://youtu.be/tMVj22EWg6A</a>
+<a style="color:#3465A4" href="https://www.youtube.com/watch?v=_6VJ8WfWI4k">https://www.youtube.com/watch?v=_6VJ8WfWI4k</a>
+
+<b><span style="background:yellow"><span style="font-size:large">Lsblk</span></span></b><b><span style="font-size:large">  ( L</span></b><span style="font-size:large">i<b>S</b></span><span style="font-size:large">t <b>BL</b></span><span style="font-size:large">oc<b>K </b></span><span style="font-size:large">devices<b> )</b></span><span style="font-size:large">
+
+List all storage devices in a tree-like format: 	$ lsblk
+
+Also list empty devices:  	$ lsblk -a
+
+Print the SIZE column in bytes not human-readable format:	$ lsblk -b
+
+Output info about filesystems:		$ lsblk -f
+
+Use ASCII characters for tree formatting:	$ lsblk -i
+
+Output info about block-device topology:	$ lsblk -t
+  
+---------------------------------------------------------------------------------------------------
+
+<b><span style="background:yellow">Fdisk</span></b></span><span style="font-size:large"><b>   F</b></span><span style="font-size:large">ree-up the<b> DISK (manipulate disk partition table)</b></span><span style="font-size:large">
+
+list partitions  $ fdisk -l <a style="color:#3465A4" href="/dev/sda">/dev/sda</a></span><span style="font-size:large">
+
+delete a partition
+    $ fdisk <a style="color:#3465A4" href="/dev/sda">/dev/sda</a></span><span style="font-size:large">
+    Command (m for help): d
+    Partition number (1-9): XXX
+
+---------------------------------------------------------------------------------------------------
+
+<b><span style="background:yellow">du</span></b></span><span style="font-size:large"><b>   D</b></span><span style="font-size:large">isk<b> U</b></span><span style="font-size:large">sage<b> ( estimate file space usage)</b></span><span style="font-size:large">
+
+sort directories/files by size	$ du -sk *| sort -rn
+
+cumulative human readable size	$ du -sh
+
+
+---------------------------------------------------------------------------------------------------
+
+<b><span style="background:yellow">df </span></b></span><span style="font-size:large"><b>  </b></span><span style="font-size:large">what <b>D</b></span><span style="font-size:large">isk is <b>F</b></span><span style="font-size:large">ree?<b>  ( file system disk space usage )</b></span><span style="font-size:large">
+
+Printout disk free space in a human readable format	$  df -h
+
+can use $ df -h  with $ ls -lh
+
+$ ls-lh 
+total 2.5M 
+drwxrwxr-x  2 tomdom tomdom 4.0K Sep 19 15:17  bin 
+drwxrwxr-x  6 tomdom tomdom 4.0K Mar 25  2018 'Calibre Library' 
+drwxr-xr-x  2 tomdom tomdom 4.0K Aug 11 14:31  Desktop
+
+
+
+Disk free space for ext2 file systems	$ df -t ext2
+
+Disk free space for file systems except ext2	$ df -x ext2
+
+Show inode usage	$ df -i
+
+Show information about a distinct file system /path	$ df /path</span></div></body></html>

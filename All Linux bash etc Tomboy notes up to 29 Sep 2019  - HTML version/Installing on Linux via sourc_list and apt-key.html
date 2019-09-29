@@ -1,0 +1,76 @@
+<html xmlns:tomboy="http://beatniksoftware.com/tomboy" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns:link="http://beatniksoftware.com/tomboy/link"><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Installing on Linux via sourc.list and apt-key</title><style type="text/css">
+	body {  }
+	h1 { font-size: xx-large;
+     	     font-weight: bold;
+     	     border-bottom: 1px solid black; }
+	div.note {
+		   position: relative;
+		   display: block;
+		   padding: 5pt;
+		   margin: 5pt; 
+		   white-space: -moz-pre-wrap; /* Mozilla */
+ 	      	   white-space: -pre-wrap;     /* Opera 4 - 6 */
+ 	      	   white-space: -o-pre-wrap;   /* Opera 7 */
+ 	      	   white-space: pre-wrap;      /* CSS3 */
+ 	      	   word-wrap: break-word;      /* IE 5.5+ */ }
+	</style></head><body><div class="note" id="Installing on Linux via sourc.list and apt-key"><a name="installing on linux via sourc.list and apt-key"></a><h1>Installing on Linux via sourc.list and apt-key</h1>
+
+<b>Riot-web</b>
+
+sudo sh -c "echo 'deb <a style="color:#3465A4" href="https://riot.im/packages/debian/">https://riot.im/packages/debian/</a> artful main' &gt; <a style="color:#3465A4" href="/etc/apt/sources.list.d/matrix-riot-im.list&quot;">/etc/apt/sources.list.d/matrix-riot-im.list"</a>
+
+curl -L <a style="color:#3465A4" href="https://riot.im/packages/debian/repo-key.asc">https://riot.im/packages/debian/repo-key.asc</a> | sudo apt-key add -
+
+sudo apt-get update &amp;&amp; sudo apt-get -y install riot-web 
+
+
+<b>WeeChat</b>
+
+# Clone this repo
+
+git clone <a style="color:#3465A4" href="https://github.com/torhve/weechat-matrix-protocol-script.git">https://github.com/torhve/weechat-matrix-protocol-script.git</a>
+
+# Copy the script into WeeChat's Lua dir
+
+# mkdir -p <a style="color:#3465A4" href="~/.weechat/lua/">~/.weechat/lua/</a>
+
+cp weechat-matrix-protocol-script/matrix.lua <a style="color:#3465A4" href="~/.weechat/lua/">~/.weechat/lua/</a>
+
+# Make a symlink into the autoload dir to load script automatically when WeeChat starts
+
+ln -s <a style="color:#3465A4" href="~/.weechat/lua/matrix.lua">~/.weechat/lua/matrix.lua</a> <a style="color:#3465A4" href="~/.weechat/lua/autoload">~/.weechat/lua/autoload</a>
+
+
+# Clone this repo
+
+git clone <a style="color:#3465A4" href="https://github.com/torhve/weechat-matrix-protocol-script.git">https://github.com/torhve/weechat-matrix-protocol-script.git</a>
+
+# Copy the script into WeeChat's Lua dir
+
+# mkdir -p <a style="color:#3465A4" href="~/.weechat/lua/">~/.weechat/lua/</a>
+
+cp weechat-matrix-protocol-script/matrix.lua <a style="color:#3465A4" href="~/.weechat/lua/">~/.weechat/lua/</a>
+
+# Make a symlink into the autoload dir to load script automatically when WeeChat starts
+
+ln -s <a style="color:#3465A4" href="~/.weechat/lua/matrix.lua">~/.weechat/lua/matrix.lua</a> <a style="color:#3465A4" href="~/.weechat/lua/autoload">~/.weechat/lua/autoload</a>
+
+$ sudo apt install weechat-curse
+
+# Start WeeChat
+
+weechat
+
+
+
+
+
+
+<b>Signal</b>
+
+
+
+
+
+
+</div></body></html>

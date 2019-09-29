@@ -1,0 +1,387 @@
+<html xmlns:tomboy="http://beatniksoftware.com/tomboy" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns:link="http://beatniksoftware.com/tomboy/link"><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><title>DOCKER</title><style type="text/css">
+	body {  }
+	h1 { font-size: xx-large;
+     	     font-weight: bold;
+     	     border-bottom: 1px solid black; }
+	div.note {
+		   position: relative;
+		   display: block;
+		   padding: 5pt;
+		   margin: 5pt; 
+		   white-space: -moz-pre-wrap; /* Mozilla */
+ 	      	   white-space: -pre-wrap;     /* Opera 4 - 6 */
+ 	      	   white-space: -o-pre-wrap;   /* Opera 7 */
+ 	      	   white-space: pre-wrap;      /* CSS3 */
+ 	      	   word-wrap: break-word;      /* IE 5.5+ */ }
+	</style></head><body><div class="note" id="DOCKER"><a name="docker"></a><h1>DOCKER</h1><a style="color:#3465A4" href="https://docs.docker.com/get-started/">https://docs.docker.com/get-started/</a><span style="font-size:large">
+
+<b>Container</b></span><span style="font-size:large">
+Runtime instance of an 'image'
+Has state, processes, native on Linux
+
+<b>Image</b></span><span style="font-size:large">
+Everything needed to run an application
+
+scaling means spinning up new executable
+
+Avoid sudo -&gt; add user to the docker group
+Ensure 'user' is not root for production builds!
+
+--------------------------------------
+<b>Docker Processes</b></span><span style="font-size:large">
+$ docker ps -a 
+
+<b>Display Docker version and info</b></span><span style="font-size:large">
+$docker --version
+$docker version
+$docker info
+
+<b>Execute (and test) Docker image</b></span><span style="font-size:large">
+$ docker run hello-world --&gt;  checks docker working ok
+
+<b>List Docker images</b></span><span style="font-size:large">
+$ docker image ls
+
+<b>List Docker containers (running, all, all in quiet mode)</b></span><span style="font-size:large">
+docker container ls
+docker container ls --all
+docker container ls -aq
+
+<b>List Docker CLI commands</b></span><span style="font-size:large">
+docker
+docker container --help
+----------------------------------------
+
+<b>Development environment eg 'Python'</b></span><span style="font-size:large">
+Python version + your code + networking etc ~= image
+Image created by a 'Dockerfile'
+
+
+Tutorial <a style="color:#3465A4" href="https://docs.docker.com/get-started/part2/#dockerfile">https://docs.docker.com/get-started/part2/#dockerfile</a></span><span style="font-size:large">
+
+<i>Dockerfile</i></span><span style="font-size:large">
+--------------------------------------------------------------------------------------
+# Use an official Python runtime as a parent image
+FROM python:2.7-slim
+
+# Set the [containers] working directory to /app
+WORKDIR /app
+
+# Copy the current directory contents [where Dockerfie is] into the container at /app
+ADD . /app
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+# Make port 80 available to the world outside via HTTP on this container
+EXPOSE 80
++
+
+# Define environment variable [container is env name is 'world']
+ENV NAME World
+
+# Run app.py when the container launches
+CMD ["python", "app.py"]
+-----------------------------------------------------------------------------------------
+
+create files  'requirements.txt'  and  'app.py' in same folder as Dockerfile#
+(see <a style="color:#3465A4" href="https://docs.docker.com/get-started/part2/#the-app-itself">https://docs.docker.com/get-started/part2/#the-app-itself</a></span><span style="font-size:large"> )
+
+/
+	|
+	| Dockerfile
+	| requirements.txt
+	| app.py
+
+
+-----------------------------------
+
+<b>Build the app</b></span><span style="font-size:large">
+
+This creates the docker image
+$ docker build -t hello    [ the -t 'tag' gives it a friendly 'hello' name]
+
+and to see it
+
+$ docker image ls
+
+You can also 'tag' images and 'publish' images to the docker hub repo
+
+
+------------------
+</span><a style="color:#3465A4" href="https://docs.docker.com/get-started/part3/#docker-composeyml">https://docs.docker.com/get-started/part3/#docker-composeyml</a><span style="font-size:large">
+<b>Services</b></span><span style="font-size:large">
+different pieces of the app are called “services”
+Scaling a service changes the number of container instances running that piece of software
+<b>
+docker-compose</b></span><span style="font-size:large">
+define, run, and scale services via docker-compose
+[this example assumes have published above Dockerfile first for 'image:username/repo:tag' to work]
+----------------------------------------------
+version: "3"
+services:
+  web:
+    # [replace username/repo:tag with your name and image details]
+    # Pull the image we uploaded in step 2 from the registry
+    image: username/repo:tag
+    deploy:
+      # Run 5 instances of that image as a service called web, 
+      # limiting each one to use, at most, 10% of the CPU (across all cores), and 50MB of RAM
+      replicas: 5
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+      # Immediately restart containers if one fails
+      restart_policy:
+        condition: on-failure
+    # Map port 4000 on the host to web’s port 80
+    ports:
+	- "4000:80"       
+   # nstruct web’s containers to share port 80 via a load-balanced network called webnet
+    networks:
+       - webnet
+# Define the webnet network with the default settings
+networks:
+  webnet:
+
+----------------------------------------------
+
+<b>Run load-balanced app</b></span><span style="font-size:large">
+
+docker swarm init
+
+<i>Now run it [app's name is 'getstartedlab'</i></span><span style="font-size:large">
+
+docker stack deploy -c docker-compose.yml getstartedlab
+
+----------------------------------------------
+
+<b>Swarm clusters</b></span><span style="font-size:large">
+
+a group of machines [nodes] that are running Docker and joined into a cluster. 
+A cluster of nodes  they are executed by a swarm manager
+
+Docker can execute in 'swarm mode'
+
+-----------------------------------------------
+
+</span><b><span style="background:yellow"><span style="font-size:xx-large">Stacks</span></span></b><span style="font-size:large">
+</span><a style="color:#3465A4" href="https://docs.docker.com/get-started/part5/">https://docs.docker.com/get-started/part5/</a><span style="font-size:large">
+
+group of interrelated services that share dependencies, and can be orchestrated and scaled together
+
+a single service stack running on a single host, which is not usually what takes place in production
+
+----------------------------
+version: "3"
+services:
+  web:
+    # replace username/repo:tag with your name and image details
+    image: username/repo:tag
+    deploy:
+      replicas: 5
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: 50M
+    ports:
+      - "80:80"
+    networks:
+      - webnet
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+    networks:
+      - webnet
+networks:
+  webnet:
+----------------------------
+
+<b>VOLUMES</b></span><span style="font-size:large">
+
+<i>from docker-compose stack above:</i></span><span style="font-size:large">
+	volumes key
+	giving the visualizer access to the host’s socket file for Docker
+
+	placement key
+	ensuring that this service only ever runs on a swarm manager
+
+Volumes are for persisting data in containers. 
+Bind mounts are dependent on the directory structure of the host machine.
+
+from docs: </span><a style="color:#3465A4" href="https://docs.docker.com/compose/compose-file/#volumes">https://docs.docker.com/compose/compose-file/#volumes</a><span style="font-size:large">
+
+'host paths' or 'named volumes'
+
+host path
+	part of a definition for a single service; 
+	no need to define in the top level volumes key.
+
+volumes key: top-level
+	volume across multiple services, 
+	For services, swarms, and stack files.
+	[Note: replaces 'volumes_from' in earlier versions of the compose]
+
+example
+
+-------------
+version: "3.2"
+services:
+  web:
+    image: nginx:alpine
+<span style="background:yellow">    volumes:
+      - type: volume      # Named volume [long syntax]
+        source: mydata  #
+        target: /data       #
+        volume:
+          nocopy: true
+      - type: bind                   
+        source: ./static            
+        target: <a style="color:#3465A4" href="/opt/app/static">/opt/app/static</a></span></span><span style="font-size:large"></span><span style="font-size:large">  
+
+  db:
+    image: postgres:latest
+    <span style="background:yellow">volumes:
+      - "/var/run/postgres/postgres.sock:/var/run/postgres/postgres.sock"    bind mount [old format]
+      - "dbdata:/var/lib/postgresql/data" [named volume: short syntax    up-to-date]</span></span><span style="font-size:large">
+
+# Named Volumes must be listed on 'top level'
+<span style="background:yellow">volumes:
+  mydata:
+  dbdata:</span></span><span style="font-size:large">
+-------------
+
+Long Syntax: allows for more options
+type [volume or bind], tmpfs,source,target,read-only etc etc
+
+When no 'named volume', service uses an 'anonymous volume' which is erased when container removed.
+
+Tom make data persist use a 
+named volume + Volume driver = multihost aware
+OR
+Set constraints
+
+eg database
+-----
+version: "3"
+services:
+  db:
+    image: postgres:9.4
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+-----
+
+Volume Config Reference
+
+Allows you to create named volumes [without 'volumes_from' which is obsolete]
+that can be 
+<span style="background:yellow">used across multiple services</span></span><span style="font-size:large">   
+Easily inspected via docker API
+
+Example - database data directory shared with another service
+
+------------
+version: "3"
+
+services:
+  db:
+    image: db
+<b><i>    volumes:
+      - data-volume:/var/lib/db</i></b></span><span style="font-size:large"></span><span style="font-size:large">
+  backup:
+    image: backup-service
+<b><i>    volumes:
+      - data-volume:/var/lib/backup/data</i></b></span><span style="font-size:large"></span><span style="font-size:large">
+
+<b><i>volumes: </i></b></span><span style="font-size:large"></span><span style="font-size:large">  <span style="background:yellow"> # top-level    [can configure with 'driver, driver_opts, external, labels, name]</span></span><span style="font-size:large"><b><i>
+  data-volume:</i></b></span><span style="font-size:large"></span><span style="font-size:large">
+------------
+
+Top-level volume keys: [not all shown]
+
+<i>driver: foobar</i></span><span style="font-size:large">   
+specify which driver; default to docker engine config
+	
+external
+If set to true volume has been created outside of compose
+Example instead of creating a volme, compose can look for an existing volume called say 'data' and mount into the 'db' services containers
+
+Labels
+For DNS style labeling
+
+
+
+=============================
+
+
+<b>FROM 2016 - OLDER VERSION OF DOCKER</b></span><span style="font-size:large">
+</span><a style="color:#3465A4" href="https://www.linux.com/learn/docker-volumes-and-networks-compose">https://www.linux.com/learn/docker-volumes-and-networks-compose</a><span style="font-size:large">
+========
+ghost:  
+  image: ghost
+  volumes:
+    - ./ghost/config.js:/var/lib/ghost/config.js
+=========
+
+we defined a volume for the ghost container, 
+this mounts the local `config.js` file into the `/var/lib/ghost/config.js` file in the container. 
+
+Docker created a volume for the `/var/lib/ghost` directory and pointed the container `config.js` file to the one we have in our project directory. If you were to edit the file on the host and restart the container, the changes would take effect immediately.
+
+Persistant data
+We can create a Docker volume and mount it in `/var/lib/mysql` of the database container. 
+The life of this volume would be totally separate from the container lifecycle.
+
+Below is a snippet which creates a `mysql` named volume and uses it in the `mysql` service.
+=========
+version: '2'
+services:
+ mysql:  
+  image: mysql
+  container_name: mysql
+  volumes:
+    - mysql:/var/lib/mysql
+...
+
+volumes:
+ mysql:
+==========
+
+Can see named volumes with 
+$docker volume ls 			and 		$docker volume inspect &lt;volume_name&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</span></div></body></html>

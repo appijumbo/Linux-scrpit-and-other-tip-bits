@@ -1,0 +1,40 @@
+<html xmlns:tomboy="http://beatniksoftware.com/tomboy" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns:link="http://beatniksoftware.com/tomboy/link"><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Shell and Sub-shell behaviour</title><style type="text/css">
+	body {  }
+	h1 { font-size: xx-large;
+     	     font-weight: bold;
+     	     border-bottom: 1px solid black; }
+	div.note {
+		   position: relative;
+		   display: block;
+		   padding: 5pt;
+		   margin: 5pt; 
+		   white-space: -moz-pre-wrap; /* Mozilla */
+ 	      	   white-space: -pre-wrap;     /* Opera 4 - 6 */
+ 	      	   white-space: -o-pre-wrap;   /* Opera 7 */
+ 	      	   white-space: pre-wrap;      /* CSS3 */
+ 	      	   word-wrap: break-word;      /* IE 5.5+ */ }
+	</style></head><body><div class="note" id="Shell and Sub-shell behaviour"><a name="shell and sub-shell behaviour"></a><h1></h1><span style="font-size:xx-large">
+
+Good for when you have a group of commands that take a long time to execute. Allows you to run stuff in the background.
+
+
+</span><span style="font-size:large">#!/bin/sh
+# Demonstrates variable behaviour in a sub-shell environment
+VAR=10
+echo "VAR is" $VAR
+(
+echo "In the subshell, VAR is still" $VAR
+VAR=$(($VAR+5))
+echo "The new value of VAR in the subshell is" $VAR
+)
+echo "Outside of the subshell, VAR is" $VAR
+
+when run as $ ./example_sub_shell.sh  
+
+output is: ----&gt;
+</span><span style="font-size:xx-large">
+</span><span style="font-size:large">VAR is 10
+In the subshell, VAR is still 10
+The new value of VAR in the subshell is 15
+Outside of the subshell, VAR is 10</span><span style="font-size:xx-large">
+</span></div></body></html>

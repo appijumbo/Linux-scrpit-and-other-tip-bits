@@ -1,0 +1,72 @@
+<html xmlns:tomboy="http://beatniksoftware.com/tomboy" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns:link="http://beatniksoftware.com/tomboy/link"><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><title>While Read Line Loop in Bash</title><style type="text/css">
+	body {  }
+	h1 { font-size: xx-large;
+     	     font-weight: bold;
+     	     border-bottom: 1px solid black; }
+	div.note {
+		   position: relative;
+		   display: block;
+		   padding: 5pt;
+		   margin: 5pt; 
+		   white-space: -moz-pre-wrap; /* Mozilla */
+ 	      	   white-space: -pre-wrap;     /* Opera 4 - 6 */
+ 	      	   white-space: -o-pre-wrap;   /* Opera 7 */
+ 	      	   white-space: pre-wrap;      /* CSS3 */
+ 	      	   word-wrap: break-word;      /* IE 5.5+ */ }
+	</style></head><body><div class="note" id="While Read Line Loop in Bash"><a name="while read line loop in bash"></a><h1>While Read Line Loop in Bash</h1><span style="font-size:large">
+<a style="color:#3465A4" href="https://www.shellhacks.com/bash-read-file-line-by-line-while-read-line-loop/">https://www.shellhacks.com/bash-read-file-line-by-line-while-read-line-loop/</a></span><span style="font-size:large">
+
+while read LINE
+    do COMMAND
+done &lt; FILE
+
+Example
+------------
+
+suppose we create a 'users.txt'
+
+cat &lt;&lt; _EOF_ &gt; users.txt
+Eric
+Kyle
+Stan
+Kenny
+_EOF_
+----------------------------------------------------------------------------------------
+
+$ while read USER
+	do echo "Hello $USER!"
+	done &lt; users.txt
+Hello Eric!
+Hello Kyle!
+Hello Stan!
+Hello Kenny!</span>
+<span style="font-size:large">
+==================================================
+
+Standard array
+
+ARRAY[0]='hello'
+ARRAY[1]=' '
+ARRAY[2]='world'
+
+</span><b><span style="font-size:xx-large">To 'push' onto an array stack</span></b><span style="font-size:large">
+<i>"In the context where an assignment statement is assigning a value to a shell variable or array index (see Arrays), the ‘+=’ operator can be used to append to or add to the variable’s previous value. This includes arguments to builtin commands such as declare that accept assignment statements (declaration commands)."</i></span><span style="font-size:large">
+<a style="color:#3465A4" href="https://www.gnu.org/software/bash/manual/bashref.html#Shell-Parameters">https://www.gnu.org/software/bash/manual/bashref.html#Shell-Parameters</a></span><span style="font-size:large">
+
+ARRAY=()
+ARRAY+=('hello')
+ARRAY+=(' ')
+ARRAY+=('world')
+
+eg
+
+$ myarray=()
+$ myarray+=('hello')
+$ myarray+=('world')
+$ myarray+=('!')
+$ echo "${myarray[*]}"
+hello  world !
+
+
+
+</span></div></body></html>
