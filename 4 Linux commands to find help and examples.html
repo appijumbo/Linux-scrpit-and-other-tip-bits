@@ -1,0 +1,151 @@
+<html xmlns:tomboy="http://beatniksoftware.com/tomboy" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns:link="http://beatniksoftware.com/tomboy/link"><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><title>4 Linux commands to find help and examples</title><style type="text/css">
+	body {  }
+	h1 { font-size: xx-large;
+     	     font-weight: bold;
+     	     border-bottom: 1px solid black; }
+	div.note {
+		   position: relative;
+		   display: block;
+		   padding: 5pt;
+		   margin: 5pt; 
+		   white-space: -moz-pre-wrap; /* Mozilla */
+ 	      	   white-space: -pre-wrap;     /* Opera 4 - 6 */
+ 	      	   white-space: -o-pre-wrap;   /* Opera 7 */
+ 	      	   white-space: pre-wrap;      /* CSS3 */
+ 	      	   word-wrap: break-word;      /* IE 5.5+ */ }
+	</style></head><body><div class="note" id="4 Linux commands to find help and examples"><a name="4 linux commands to find help and examples"></a><h1>4 Linux commands to find help and examples</h1>
+<b><span style="font-size:large">1) man pages</span></b>
+
+
+example 
+
+$ man wget
+
+when open type ' / ' to search the pages
+
+'n' to go to the next search 
+
+
+Also
+$ man -k fooBarTopic
+
+to search for commands 
+
+'PageUp'  and 'PageDown' to go up and down a page
+
+'Home' to go to top of page
+
+'End' to go to bottom of page
+
+'q' to quit and get back to the command line
+
+
+<b><span style="font-size:large">2) Info </span></b>
+
+
+A very nicely indexed help, 
+
+Great for examples !
+
+$ info wget
+
+produces the following sections
+
+* Overview::                    Features of Wget.
+* Invoking::                    Wget command-line arguments.
+* Recursive Download::          Downloading interlinked pages.
+* Following Links::             The available methods of chasing links.
+* Time-Stamping::               Mirroring according to time-stamps.
+* Startup File::                Wget’s initialization file.
+* Examples::                    Examples of usage.
+* Various::                     The stuff that doesn’t fit anywhere else.
+* Appendices::                  Some useful references.
+* Copying this manual::         You may give out copies of this manual.
+* Concept Index::               Topics covered by this manual.
+
+
+Simple use the 'arrow up' and 'arrow down' keys to go over the desired menu option and hit 'enter' to select
+
+
+Also 'i' to enter a search index term
+
+
+And don't forget that ' H ' for help on using this 'info' help tool
+
+This pops up the menu
+
+H           Close this help window.
+q           Quit Info altogether.
+h           Invoke the Info tutorial.
+
+Up          Move up one line.
+Down        Move down one line.
+PgUp        Scroll backward one screenful.
+PgDn        Scroll forward one screenful.
+Home        Go to the beginning of this node.
+End         Go to the end of this node.
+
+TAB         Skip to the next hypertext link.
+RET         Follow the hypertext link under the cursor.
+
+Finally 'T' to go to the top of the page
+
+------
+
+<b><span style="font-size:large">3) --help</span></b>
+
+$ wget --help
+
+Very good at giving a simplified listing of the options on a command
+
+
+Can use grep to narrow down too eg.
+
+$ wget --help | grep 'POST'
+
+gives
+
+--post-data=STRING          use the POST method; send STRING as the data
+       --post-file=FILE            use the POST method; send contents of FILE
+
+
+Whereas
+
+$ curl --help | grep 'POST'
+
+gives
+
+ -d, --data &lt;data&gt;   HTTP POST data
+     --data-ascii &lt;data&gt; HTTP POST ASCII data
+     --data-binary &lt;data&gt; HTTP POST binary data
+     --data-raw &lt;data&gt; HTTP POST data, '@' allowed
+     --data-urlencode &lt;data&gt; HTTP POST data url encoded
+ -F, --form &lt;name=content&gt; Specify HTTP multipart POST data
+     --form-string &lt;name=string&gt; Specify HTTP multipart POST data
+
+Tip: Best used with less to moderate output also ie  
+
+
+$ wget --help | less
+
+then can use down arrow keys or 'PageUp' and 'PageDown' keys accordingly
+
+Again 'q' to quit
+
+
+<b><span style="font-size:large">4) cheat.sh</span></b>
+
+Use the website <a style="color:#3465A4" href="http://cheat.sh">http://cheat.sh</a>  eg.
+
+Excellent for quick examples !
+
+For example online examples for 'crontab' just
+
+cheat.sh/crontab
+
+for command line just curl it e.g.
+
+$ curl cheat.sh/crontab
+
+
+</div></body></html>

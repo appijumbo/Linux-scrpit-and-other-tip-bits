@@ -1,0 +1,74 @@
+<html xmlns:tomboy="http://beatniksoftware.com/tomboy" xmlns:size="http://beatniksoftware.com/tomboy/size" xmlns:link="http://beatniksoftware.com/tomboy/link"><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Install GIMP Plug-ins into 2.10</title><style type="text/css">
+	body {  }
+	h1 { font-size: xx-large;
+     	     font-weight: bold;
+     	     border-bottom: 1px solid black; }
+	div.note {
+		   position: relative;
+		   display: block;
+		   padding: 5pt;
+		   margin: 5pt; 
+		   white-space: -moz-pre-wrap; /* Mozilla */
+ 	      	   white-space: -pre-wrap;     /* Opera 4 - 6 */
+ 	      	   white-space: -o-pre-wrap;   /* Opera 7 */
+ 	      	   white-space: pre-wrap;      /* CSS3 */
+ 	      	   word-wrap: break-word;      /* IE 5.5+ */ }
+	</style></head><body><div class="note" id="Install GIMP Plug-ins into 2.10"><a name="install gimp plug-ins into 2.10"></a><h1>Install GIMP Plug-ins into 2.10</h1>
+
+<span style="font-size:large">To easily download around 100 plugins on Linux install the 'gimp-plugin-registry' 
+
+1) First ensure plug-in folder exists. If you already have 2.8 install it will exist but just to make sure
+$ mkdir -p <a style="color:#3465A4" href="/usr/lib/gimp/2.0/plug-ins">/usr/lib/gimp/2.0/plug-ins</a></span><span style="font-size:large">
+
+
+2) Install the 'gimp-plugin-registry' for Debian/Ubuntu this is
+$ sudo apt install gimp-plugin-registry
+
+This installs a bunch (100 ish) plugins into usr/lib/gimp/2.0/plug-ins
+
+3)  copy the plugin scripts to the 2.10 folder 
+
+If you've installed via Flatpak GIMP install
+$ cp -r <a style="color:#3465A4" href="/usr/lib/gimp/2.0/plug-ins">/usr/lib/gimp/2.0/plug-ins</a></span><span style="font-size:large"> <a style="color:#3465A4" href="~/.var/app/org.gimp.GIMP/config/GIMP/2.10">~/.var/app/org.gimp.GIMP/config/GIMP/2.10</a></span><span style="font-size:large">
+
+If you've installed via Snap GIMP Install
+$ cp -r <a style="color:#3465A4" href="/usr/lib/gimp/2.0/plug-ins">/usr/lib/gimp/2.0/plug-ins</a></span><span style="font-size:large"> <a style="color:#3465A4" href="~/snap/gimp/47/.config/GIMP/2.10">~/snap/gimp/47/.config/GIMP/2.10</a></span><span style="font-size:large">
+
+
+TL;DR
+$ mkdir -p <a style="color:#3465A4" href="/usr/lib/gimp/2.0/plug-ins">/usr/lib/gimp/2.0/plug-ins</a></span><span style="font-size:large">
+$ sudo apt install gimp-plugin-registry
+$ cp -r <a style="color:#3465A4" href="/usr/lib/gimp/2.0/plug-ins">/usr/lib/gimp/2.0/plug-ins</a></span><span style="font-size:large"> <a style="color:#3465A4" href="~/.var/app/org.gimp.GIMP/config/GIMP/2.10">~/.var/app/org.gimp.GIMP/config/GIMP/2.10</a></span><span style="font-size:large">  
+OR
+$ cp -r <a style="color:#3465A4" href="/usr/lib/gimp/2.0/plug-ins">/usr/lib/gimp/2.0/plug-ins</a></span><span style="font-size:large"> <a style="color:#3465A4" href="~/snap/gimp/47/.config/GIMP/2.10">~/snap/gimp/47/.config/GIMP/2.10</a></span><span style="font-size:large">
+
+
+
+---------------------------------------
+Note: If you haven't already installed Gimp 2.10 I recommend Flatpak or Snaps as modern developer orientated distribution systems
+
+* Flatpak
+To check if Flatpak installed
+$ flatpak --version
+
+If not, then to install go to <a style="color:#3465A4" href="https://flatpak.org/setup/">https://flatpak.org/setup/</a></span><span style="font-size:large">
+
+And to install Gimp 2.10
+$ flatpak install <a style="color:#3465A4" href="https://flathub.org/repo/appstream/org.gimp.GIMP.flatpakref">https://flathub.org/repo/appstream/org.gimp.GIMP.flatpakref</a></span><span style="font-size:large">
+
+To update ALL your flatpak's   
+$ flatpak update
+
+* Snap
+To check if Snap already installed (default in Ubuntu)
+$ snap --version
+
+If not, then install via
+$ sudo apt install snapd
+
+Then to install Gimp 2.10
+$ sudo snap install gimp
+
+To refresh ALL your snaps 
+$ snap refresh</span>
+</div></body></html>
